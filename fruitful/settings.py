@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['fruitful6.herokuapp.com','afruitfulday.com']
+ALLOWED_HOSTS = ['fruitful6.herokuapp.com','www.afruitfulday.com']
 
 
 # Application definition
