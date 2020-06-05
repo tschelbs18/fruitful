@@ -2,3 +2,9 @@ language: python
 python: 3.8.3
 install: pip install -r requirements.txt
 script: python manage.py test
+deploy:
+  provider: heroku
+  api_key: 92458df0-54cb-4ad9-8f66-b3fafa100684
+  app: fruitful6
+  run: python manage.py migrate
+  on: master
