@@ -3,7 +3,10 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Fruitful - coming soon.")
+    context = {
+    
+    }
+    return render(request, "tasks/index.html", context)
 
 def login_view(request):
     # TODO:

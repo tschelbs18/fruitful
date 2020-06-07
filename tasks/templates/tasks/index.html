@@ -1,0 +1,15 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Fruitful{% endblock %}
+
+{% block body %}
+  <h1 style="text-align:center">
+    Welcome to Fruitful!
+  </h1>
+  <img src="{% static 'tasks/fruit_art/happy_fruits.jpg' %}" alt="Happy Fruits!" class="img_center">
+  <hr>
+  <p>
+    Fruitful is a productivity helper built to maximize your daily activity while working remotely or on your computer in general.
+  </p>
+{% endblock %}
