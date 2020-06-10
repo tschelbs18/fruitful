@@ -29,11 +29,13 @@
                     <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/tasks">Current Tasks</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/tasks">Completed Tasks</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/tasks">Available Rewards</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/tasks">Past Rewards</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/past_tasks">Completed Tasks</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/rewards">Available Rewards</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/past_rewards">Past Rewards</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/error_report">Report Error</a></li>
                         {% if user.is_superuser %}
                         <li class="nav-item"><a class="nav-link" href="/admin_tasks">View User Activity</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/admin_errors">View Errors</a></li>
                         {% endif %}
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">

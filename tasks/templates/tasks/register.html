@@ -1,0 +1,23 @@
+{% extends "tasks/base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<h1>Register</h1>
+<form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <label for="username" style="display:block">Username:</label>
+    <input name="username" type="text" required/>
+    <label for="password" style="display:block">Password:</label>
+    <input name="password" type="password" required/>
+    <label for="first_name" style="display:block">First Name:</label>
+    <input name="first_name" type="text" required/>
+    <label for="last_name" style="display:block">Last Name:</label>
+    <input name="last_name" type="text" required/>
+    <label for="email" style="display:block">Email Address:</label>
+    <input name="email" type="email" required/>
+    <br>
+    <br>
+    <input type="submit" value="Sign up"/>
+</form>
+{% endblock %}

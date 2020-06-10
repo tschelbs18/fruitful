@@ -1,9 +1,22 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 class Fruit(models.Model):
     size = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
+
+class Error(models.Model):
+    reporter = models.ForeignKey(
+      get_user_model(),
+      on_delete=models.CASCADE
+    )
+    handled = models.BooleanField(default=False)
+    subject = models.CharField(max_length=256, default="")
+    details = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return f"Error #{self.id}: {self.subject}"
 
 class StandardTask(models.Model):
     size = models.CharField(max_length=64)

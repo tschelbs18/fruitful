@@ -1,0 +1,18 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Error{% endblock %}
+
+{% block body %}
+  <h2>We're sorry an error occurred, please submit a brief report below.</h2>
+  <img src="{% static 'tasks/fruit_art/sad_pear.jpg' %}" alt="Sad Pear">
+  <hr>
+  <form action="{% url 'error' %}" method="post">
+      {% csrf_token %}
+      <label for="subject" style="display:block"><b>Subject:</b></label>
+      <input name="subject" type="text" required/>
+      <label for="description" style="display:block"><b>Free Response:</b></label>
+      <textarea rows = "5" cols = "100" name = "description"> Enter details here...</textarea><br>
+      <input type="submit" value="Submit Error Report"/>
+  </form>
+{% endblock %}
