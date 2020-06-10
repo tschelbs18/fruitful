@@ -2,5 +2,9 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 20%;
+  width: 30%;
+}
+
+.p_center {
+  text-align: center;
 }

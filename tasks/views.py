@@ -4,7 +4,6 @@ from django.http import HttpResponse
 # Create your views here.
 def index(request):
     context = {
-    
     }
     return render(request, "tasks/index.html", context)
 
@@ -25,5 +24,21 @@ def register_view(request):
     pass
 
 def admin_tasks_view(request):
+    # TODO:
+    pass
+
+def scoreboard_view(request):
+    # TODO:
+    pass
+
+def about_view(request):
+    # TODO:
+    pass
+
+def faq_view(request):
+    # TODO:
+    pass
+
+def contact_view(request):
     # TODO:
     pass
