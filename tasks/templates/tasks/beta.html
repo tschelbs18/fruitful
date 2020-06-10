@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+        <link href="{% static 'tasks/styles.css' %}" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+        <title>Fruitful</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'tasks/favicon.ico' %}"/>
+
+    </head>
+
+    <body>
+
+        <main class="container p-5" id="main-body">
+          <h1 style="text-align:center">
+            Welcome to Fruitful, it's coming soon!
+          </h1>
+          <img src="{% static 'tasks/fruit_art/happy_fruits.jpg' %}" alt="Happy Fruits!" class="img_center">
+          <hr>
+          <p class="p_center">
+            Fruitful is a productivity helper built to maximize your daily activity while working remotely or on your computer in general. It's currently in development, and our team of one is hard at work to make it available.
+          </p>
+        </main>
+
+        <footer class="small text-center text-muted">
+            Website built using Django by tschelbs18
+        </footer>
+
+    </body>
+
+</html>

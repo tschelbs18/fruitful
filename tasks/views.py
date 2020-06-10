@@ -5,7 +5,11 @@ from django.http import HttpResponse
 def index(request):
     context = {
     }
-    return render(request, "tasks/index.html", context)
+    if request.get_host() == "127.0.0.1:8000":
+        print("Local testing")
+        return render(request, "tasks/index.html", context)
+    else:
+        return render(request, "tasks/beta.html", context)
 
 def login_view(request):
     # TODO:
