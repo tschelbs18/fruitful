@@ -80,11 +80,33 @@ def admin_errors_view(request):
         return render(request, "tasks/admin_errors.html", context)
 
 def tasks_view(request):
-    # TODO:
+    if request.user.is_authenticated:
+        context = {
+            "active_tasks": UserTask.objects.filter(status__in=('Incomplete','In Progress'),user=request.user)
+        }
+        return render(request, "tasks/tasks.html", context)
+    else:
+        messages.add_message(request, messages.INFO, "You need to login first.")
+        return render(request, "tasks/login.html")
+
+def add_task(request):
+    if request.method == "POST":
+        task = request.POST.get("description")
+        new_task = UserTask(user=request.user, size="Small", status="Incomplete", description=task)
+        new_task.save()
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return HttpResponseRedirect(reverse("tasks"))
+
+def update_task(request, task_id):
     pass
 
-def admin_tasks_view(request):
-    # TODO:
+def delete_task(request, task_id):
+    task = UserTask.objects.get(id=task_id)
+    task.delete()
+    return HttpResponseRedirect(reverse("tasks"))
+
+def complete_task(request, task_id):
     pass
 
 def scoreboard_view(request):
