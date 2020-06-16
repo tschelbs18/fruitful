@@ -81,13 +81,7 @@ def scoreboard_view(request):
     pass
 
 def about_view(request):
-    # TODO:
-    pass
+    return render(request, "tasks/about.html")
 
 def faq_view(request):
-    # TODO:
-    pass
-
-def contact_view(request):
-    # TODO:
-    pass
+    return render(request, "tasks/faq.html")

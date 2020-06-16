@@ -4,7 +4,7 @@
 {% block title %}Error{% endblock %}
 
 {% block body %}
-  <h2>We're sorry an error occurred, please submit a brief report below.</h2>
+  <h2>We're sorry something went wrong, please submit a brief report below so we can improve.</h2>
   <img src="{% static 'tasks/fruit_art/sad_pear.jpg' %}" alt="Sad Pear">
   <hr>
   <form action="{% url 'error' %}" method="post">
