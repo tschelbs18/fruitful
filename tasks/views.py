@@ -68,6 +68,17 @@ def error_view(request):
     else:
         return render(request, "tasks/error.html")
 
+def admin_errors_view(request):
+    if not request.user.is_superuser:
+        messages.add_message(request, messages.INFO, "You don't have access to this page.")
+        return render(request, "tasks/index.html")
+    else:
+        context = {
+            "active_errors": Error.objects.filter(handled=True),
+            "fixed_errors": Error.objects.filter(handled=False)
+        }
+        return render(request, "tasks/admin_errors.html", context)
+
 def tasks_view(request):
     # TODO:
     pass

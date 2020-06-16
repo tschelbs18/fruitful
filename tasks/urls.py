@@ -10,5 +10,6 @@ urlpatterns = [
   path("error_report", views.error_view, name="error"),
   path("faq", views.faq_view, name="faq"),
   path("about", views.about_view, name="about"),
-  path("admin_tasks", views.admin_tasks_view, name="admin_tasks_view")
+  path("admin_tasks", views.admin_tasks_view, name="admin_tasks_view"),
+  path("admin_errors", views.admin_errors_view, name="admin_errors_view")
 ]

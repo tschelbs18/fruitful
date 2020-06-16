@@ -18,6 +18,9 @@ class Error(models.Model):
     def __str__(self):
         return f"Error #{self.id}: {self.subject}"
 
+    def show_details(self):
+        return f"Error #{self.id}: {self.subject} - {self.details}"
+
 class StandardTask(models.Model):
     size = models.CharField(max_length=64)
     name = models.CharField(max_length=2000)

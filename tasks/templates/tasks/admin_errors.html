@@ -1,0 +1,29 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Admin Errors{% endblock %}
+
+{% block body %}
+  <h2>Reported Errors/Feedback</h2>
+  <hr>
+  <h3>Active Errors</h3>
+  <hr>
+  {% if active_errors %}
+  <ul>
+    {% for error in active_errors %}
+      <li>error.show_details()</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>
+    No active errors.
+  </p>
+  {% endif %}
+  <h3>Resolved Errors</h3>
+  <hr>
+  <ul>
+    {% for error in fixed_errors %}
+      <li>error.show_details()</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
