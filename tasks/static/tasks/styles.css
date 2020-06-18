@@ -8,3 +8,21 @@
 .p_center {
   text-align: center;
 }
+
+.complete_btn {
+  background-color: mediumspringgreen;
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.complete_btn:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.delete_btn {
+  background-color: tomato;
+  border: none;
+  border-radius: 10%;
+  cursor: pointer;
+}

@@ -7,17 +7,25 @@
   <h2>Current Tasks</h2>
   <hr>
   {% if active_tasks %}
-    <ul>
+    <ul class="list-group">
     {% for task in active_tasks %}
-      <li>
+    <div>
+      <li class="list-group-item">
         {{ task.description }}
-        <form action="/delete_task/{{task.id}}/"
-          style="display:inline"
+        <form action="/complete_task/{{task.id}}/"
+          style="display:flex; flex-direction:column; align-items:flex-end;"
           method="post">
           {% csrf_token %}
-          <input type="submit" value="Delete"/>
+          <input type="submit" class="complete_btn" value="Mark Complete"/>
+        </form>
+        <form action="/delete_task/{{task.id}}/"
+          style="display:flex; flex-direction:column; align-items:flex-end;"
+          method="post">
+          {% csrf_token %}
+          <input type="submit" class="delete_btn" value="Delete"/>
         </form>
       </li>
+    </div>
     {% endfor %}
     </ul>
   {% else %}
@@ -25,7 +33,8 @@
     You have no tasks outstanding.
   </p>
   {% endif %}
-  <h5>Add a new task</h5>
+  <br>
+  <h5>Add more tasks</h5>
   <hr>
   <form action="/tasks/add" method="post">
       {% csrf_token %}

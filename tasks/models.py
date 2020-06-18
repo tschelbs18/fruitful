@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 # Create your models here.
+class UserProfile(models.Model):
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+    # Add a profile image?
+
+    def __str__(self):
+        return f"{self.user.username}"
+
 class Error(models.Model):
     reporter = models.ForeignKey(
       get_user_model(),
