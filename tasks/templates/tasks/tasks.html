@@ -7,27 +7,36 @@
   <h2>Current Tasks</h2>
   <hr>
   {% if active_tasks %}
-    <ul class="list-group">
+  <div class="my-3 p-3 bg-white rounded box-shadow">
     {% for task in active_tasks %}
-    <div>
-      <li class="list-group-item">
-        {{ task.description }}
-        <form action="/complete_task/{{task.id}}/"
-          style="display:flex; flex-direction:column; align-items:flex-end;"
-          method="post">
-          {% csrf_token %}
-          <input type="submit" class="complete_btn" value="Mark Complete"/>
-        </form>
-        <form action="/delete_task/{{task.id}}/"
-          style="display:flex; flex-direction:column; align-items:flex-end;"
-          method="post">
-          {% csrf_token %}
-          <input type="submit" class="delete_btn" value="Delete"/>
-        </form>
-      </li>
+    <div class="media text-muted pt-3">
+      <!-- Image code to go below<img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded"> -->
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark" style="font-size: 20px">{{task.description}}</strong>
+          <span class="pull-right">
+            <form action="/complete_task/{{task.id}}/"
+              style="display:inline"
+              method="post">
+              {% csrf_token %}
+              <input type="submit" class="complete_btn" value="Mark Complete"/>
+            </form>
+            <form action="/delete_task/{{task.id}}/"
+              style="display:inline"
+              method="post">
+              {% csrf_token %}
+              <input type="submit" class="delete_btn" value="Delete"/>
+            </form>
+          </span>
+        </div>
+        <span class="d-block">Added X days ago</span>
+      </div>
     </div>
     {% endfor %}
-    </ul>
+    <small class="d-block text-right mt-3">
+      <a href="/past_tasks">Completed Tasks</a>
+    </small>
+  </div>
   {% else %}
   <p>
     You have no tasks outstanding.

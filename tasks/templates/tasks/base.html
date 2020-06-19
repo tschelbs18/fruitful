@@ -11,6 +11,9 @@
         <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
         <link href="{% static 'tasks/styles.css' %}" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
         <title>{% block title %}{% endblock %}</title>
         <link rel="shortcut icon" type="image/png" href="{% static 'tasks/favicon.ico' %}"/>
@@ -19,7 +22,7 @@
 
     <body>
 
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #C5FFEB;">
+        <nav class="navbar navbar-expand-md navbar-light" style="background-color: #E7FFF7;">
             <a class="navbar-brand" href="/"><span>Fruitful</span></a>
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
