@@ -41,6 +41,14 @@ class UserTask(models.Model):
       get_user_model(),
       on_delete=models.CASCADE)
 
+    def get_points(self):
+        points_map = {
+            'Small': 100,
+            'Medium': 300,
+            'Large' : 500
+        }
+        return points_map.get(self.size)
+
 class StandardReward(models.Model):
     size = models.CharField(max_length=64)
     name = models.CharField(max_length=1000)

@@ -11,7 +11,13 @@
   {% if active_errors %}
   <ul>
     {% for error in active_errors %}
-      <li>error.show_details()</li>
+      <li>{{ error.show_details }}</li>
+      <form action="/handle_error/{{error.id}}/"
+        style="display:inline"
+        method="post">
+        {% csrf_token %}
+        <input type="submit" class="complete_btn" value="Mark as Handled"/>
+      </form>
     {% endfor %}
   </ul>
   {% else %}
@@ -23,7 +29,7 @@
   <hr>
   <ul>
     {% for error in fixed_errors %}
-      <li>error.show_details()</li>
+      <li>{{ error.show_details }}</li>
     {% endfor %}
   </ul>
 {% endblock %}

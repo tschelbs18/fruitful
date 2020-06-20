@@ -64,7 +64,7 @@ def error_view(request):
         error = Error(reporter=reporter, subject=subject, details=details)
         error.save()
         messages.add_message(request, messages.INFO, "Thank you for your error report, we'll look into it.")
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("tasks"))
     else:
         return render(request, "tasks/error.html")
 
@@ -74,10 +74,17 @@ def admin_errors_view(request):
         return render(request, "tasks/index.html")
     else:
         context = {
-            "active_errors": Error.objects.filter(handled=True),
-            "fixed_errors": Error.objects.filter(handled=False)
+            "active_errors": Error.objects.filter(handled=False),
+            "fixed_errors": Error.objects.filter(handled=True)
         }
         return render(request, "tasks/admin_errors.html", context)
+
+def handle_error(request, error_id):
+    error = Error.objects.get(id=error_id)
+    error.handled = True
+    error.save()
+    messages.add_message(request, messages.SUCCESS, f"Error handled.")
+    return HttpResponseRedirect(reverse("admin_errors_view"))
 
 def tasks_view(request):
     if request.user.is_authenticated:
@@ -107,7 +114,11 @@ def delete_task(request, task_id):
     return HttpResponseRedirect(reverse("tasks"))
 
 def complete_task(request, task_id):
-    pass
+    task = UserTask.objects.get(id=task_id)
+    task.status = 'Complete'
+    task.save()
+    messages.add_message(request, messages.SUCCESS, f"Nice work! You just earned {task.get_points()} points.")
+    return HttpResponseRedirect(reverse("tasks"))
 
 def scoreboard_view(request):
     # TODO:
