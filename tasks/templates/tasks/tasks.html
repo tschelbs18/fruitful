@@ -10,7 +10,13 @@
   <div class="my-3 p-3 bg-white rounded box-shadow">
     {% for task in active_tasks %}
     <div class="media text-muted pt-3">
-      <!-- Image code to go below<img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded"> -->
+      {% if task.size == "Small" %}
+        <img src="{% static 'tasks/fruit_art/grapes.png' %}" class="mr-2 rounded" alt="">
+      {% elif task.size == "Medium" %}
+        <img src="{% static 'tasks/fruit_art/apple.png' %}" class="mr-2 rounded" alt="">
+      {% elif task.size == "Large" %}
+        <img src="{% static 'tasks/fruit_art/melon.png' %}" class="mr-2 rounded" alt="">
+      {% endif %}
       <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
         <div class="d-flex justify-content-between align-items-center w-100">
           <strong class="text-gray-dark" style="font-size: 20px">{{task.description}}</strong>
@@ -47,6 +53,12 @@
   <hr>
   <form action="/tasks/add" method="post">
       {% csrf_token %}
+      <label for="size" style="display:block"><b>Select a size:</b></label>
+      <select name="size">
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+      </select>
       <label for="description" style="display:block"><b>Task description:</b></label>
       <input name="description" type="text" required/>
       <input type="submit" value="Add Task"/>

@@ -4,15 +4,26 @@
 {% block title %}Rewards{% endblock %}
 
 {% block body %}
-  <h2>Available Rewards</h2>
+  <h2>Rewards (You currently have {{ points }} points available.)</h2>
+  <div>
+  <a href="#custom_head">Custom Rewards</a> |
+  <a href="#recommended_head">Fruitful Recommended Awards</a> |
+  <a href="#add_custom_head">Add a custom reward</a>
+  </div>
   <hr>
-  <h5>Custom</h5>
+  <h4>Custom</h4>
   <hr>
-  {% if active_tasks %}
-  <div class="my-3 p-3 bg-white rounded box-shadow">
+  {% if custom_rewards %}
+  <div class="my-3 p-3 bg-white rounded box-shadow" id="custom_head">
     {% for reward in custom_rewards %}
     <div class="media text-muted pt-3">
-      <!-- Image code to go below<img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded"> -->
+      {% if reward.size == "Small" %}
+        <img src="{% static 'tasks/fruit_art/grapes.png' %}" class="mr-2 rounded" alt="">
+      {% elif reward.size == "Medium" %}
+        <img src="{% static 'tasks/fruit_art/apple.png' %}" class="mr-2 rounded" alt="">
+      {% elif reward.size == "Large" %}
+        <img src="{% static 'tasks/fruit_art/melon.png' %}" class="mr-2 rounded" alt="">
+      {% endif %}
       <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
         <div class="d-flex justify-content-between align-items-center w-100">
           <strong class="text-gray-dark" style="font-size: 20px">{{reward.description}}</strong>
@@ -23,9 +34,15 @@
               {% csrf_token %}
               <input type="submit" class="complete_btn" value="Redeem"/>
             </form>
+            <form action="/delete_reward/{{reward.id}}/"
+              style="display:inline"
+              method="post">
+              {% csrf_token %}
+              <input type="submit" class="delete_btn" value="Delete"/>
+            </form>
           </span>
         </div>
-        <span class="d-block">Added X days ago</span>
+        <span class="d-block"></span>
       </div>
     </div>
     {% endfor %}
@@ -38,12 +55,18 @@
     You have no custom rewards available to redeem.
   </p>
   {% endif %}
-  <h5>Standard</h5>
+  <h4 id="recommended_head">Fruitful Recommended Rewards</h4>
   <hr>
   <div class="my-3 p-3 bg-white rounded box-shadow">
     {% for reward in standard_rewards %}
     <div class="media text-muted pt-3">
-      <!-- Image code to go below<img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded"> -->
+      {% if reward.size == "Small" %}
+        <img src="{% static 'tasks/fruit_art/grapes.png' %}" class="mr-2 rounded" alt="">
+      {% elif reward.size == "Medium" %}
+        <img src="{% static 'tasks/fruit_art/apple.png' %}" class="mr-2 rounded" alt="">
+      {% elif reward.size == "Large" %}
+        <img src="{% static 'tasks/fruit_art/melon.png' %}" class="mr-2 rounded" alt="">
+      {% endif %}
       <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
         <div class="d-flex justify-content-between align-items-center w-100">
           <strong class="text-gray-dark" style="font-size: 20px">{{reward.description}}</strong>
@@ -61,10 +84,16 @@
     {% endfor %}
   </div>
   <br>
-  <h5>Add a custom reward</h5>
+  <h4 id="add_custom_head">Add some more custom rewards</h4>
   <hr>
   <form action="/rewards/add" method="post">
       {% csrf_token %}
+      <label for="size" style="display:block"><b>Select a size:</b></label>
+      <select name="size">
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+      </select>
       <label for="description" style="display:block"><b>Reward description:</b></label>
       <input name="description" type="text" required/>
       <input type="submit" value="Add Reward"/>

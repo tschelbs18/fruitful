@@ -50,7 +50,7 @@ class UserTask(models.Model):
 
 class StandardReward(models.Model):
     size = models.CharField(max_length=64)
-    name = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000)
 
     def get_points(self):
         points_map = {

@@ -1,0 +1,74 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Rewards{% endblock %}
+
+{% block body %}
+  <h2>Available Rewards</h2>
+  <hr>
+  <h5>Custom</h5>
+  <hr>
+  {% if active_tasks %}
+  <div class="my-3 p-3 bg-white rounded box-shadow">
+    {% for reward in custom_rewards %}
+    <div class="media text-muted pt-3">
+      <!-- Image code to go below<img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded"> -->
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark" style="font-size: 20px">{{reward.description}}</strong>
+          <span class="pull-right">
+            <form action="/redeem_reward/{{reward.id}}/"
+              style="display:inline"
+              method="post">
+              {% csrf_token %}
+              <input type="submit" class="complete_btn" value="Redeem"/>
+            </form>
+          </span>
+        </div>
+        <span class="d-block">Added X days ago</span>
+      </div>
+    </div>
+    {% endfor %}
+    <small class="d-block text-right mt-3">
+      <a href="/past_rewards">Past Rewards</a>
+    </small>
+  </div>
+  {% else %}
+  <p>
+    You have no custom rewards available to redeem.
+  </p>
+  {% endif %}
+  <h5>Standard</h5>
+  <hr>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+          {% for reward in standard_rewards %}
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{ reward.description }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Redeem</button>
+                  </div>
+                  <small class="text-muted"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+  <br>
+  <h5>Add a custom reward</h5>
+  <hr>
+  <form action="/rewards/add" method="post">
+      {% csrf_token %}
+      <label for="description" style="display:block"><b>Reward description:</b></label>
+      <input name="description" type="text" required/>
+      <input type="submit" value="Add Reward"/>
+  </form>
+{% endblock %}

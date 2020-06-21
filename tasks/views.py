@@ -52,6 +52,8 @@ def register_view(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
+        user_profile = UserProfile(user=user)
+        user_profile.save()
         return HttpResponseRedirect(reverse("login"))
     else:
         return render(request, "tasks/register.html")
@@ -99,8 +101,8 @@ def tasks_view(request):
 def add_task(request):
     if request.method == "POST":
         task = request.POST.get("description")
-        # Need to add size to form
-        new_task = UserTask(user=request.user, size="Small", status="Incomplete", description=task)
+        size = request.POST.get("size")
+        new_task = UserTask(user=request.user, size=size, status="Incomplete", description=task)
         new_task.save()
         return HttpResponseRedirect(reverse("tasks"))
     else:
@@ -112,6 +114,7 @@ def update_task(request, task_id):
 def delete_task(request, task_id):
     task = UserTask.objects.get(id=task_id)
     task.delete()
+    messages.add_message(request, messages.INFO, "Task deleted, not completed.")
     return HttpResponseRedirect(reverse("tasks"))
 
 def complete_task(request, task_id):
@@ -140,7 +143,8 @@ def rewards_view(request):
     if request.user.is_authenticated:
         context = {
             "standard_rewards": StandardReward.objects.all(),
-            "custom_rewards": UserReward.objects.filter(status='Available'),
+            "custom_rewards": UserReward.objects.filter(user=request.user, status='Available'),
+            "points": UserProfile.objects.get(user=request.user).current_points
         }
         return render(request, "tasks/rewards.html", context)
     else:
@@ -157,14 +161,38 @@ def add_reward(request):
     else:
         return HttpResponseRedirect(reverse("rewards"))
 
+def delete_reward(request, reward_id):
+    reward = UserReward.objects.get(id=reward_id)
+    reward.delete()
+    messages.add_message(request, messages.INFO, "Reward deleted from available custom rewards.")
+    return HttpResponseRedirect(reverse("rewards"))
+
 def redeem_reward(request, reward_id):
     reward = UserReward.objects.get(id=reward_id)
-    reward.status = 'Used'
-    reward.save()
+    profile = UserProfile.objects.get(user=request.user)
     points = reward.get_points()
+    if points > profile.current_points:
+        messages.add_message(request, messages.ERROR, "You don't have enough points for that reward right now, go do some more tasks!")
+        return HttpResponseRedirect(reverse("rewards"))
+    past_reward = UserReward(user=request.user, size=reward.size, status="Used", description=reward.description)
+    past_reward.save()
     profile = UserProfile.objects.get(user=request.user)
     profile.current_points -= points
-    profile.total_points -= points
+    profile.save()
+    messages.add_message(request, messages.SUCCESS, f"Awesome! Enjoy your reward.")
+    return HttpResponseRedirect(reverse("rewards"))
+
+def redeem_standard_reward(request, reward_id):
+    reward = StandardReward.objects.get(id=reward_id)
+    profile = UserProfile.objects.get(user=request.user)
+    points = reward.get_points()
+    if points > profile.current_points:
+        messages.add_message(request, messages.ERROR, "You don't have enough points for that reward right now, go do some more tasks!")
+        return HttpResponseRedirect(reverse("rewards"))
+    past_reward = UserReward(user=request.user, size=reward.size, status="Used", description=reward.description)
+    past_reward.save()
+    profile = UserProfile.objects.get(user=request.user)
+    profile.current_points -= points
     profile.save()
     messages.add_message(request, messages.SUCCESS, f"Awesome! Enjoy your reward.")
     return HttpResponseRedirect(reverse("rewards"))
