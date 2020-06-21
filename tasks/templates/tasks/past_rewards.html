@@ -1,0 +1,20 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Rewards{% endblock %}
+
+{% block body %}
+  <h2>Redeemed Rewards</h2>
+  <hr>
+  {% if redeemed_rewards %}
+  <ul>
+    {% for reward in redeemed_rewards %}
+      <li>{{ reward.description }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>
+    You haven't redeemed any rewards yet.
+  </p>
+  {% endif %}
+{% endblock %}

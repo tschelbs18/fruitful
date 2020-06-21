@@ -32,7 +32,6 @@ class UserTask(models.Model):
     status = models.CharField(max_length=64,
         choices=[
             ('Incomplete', 'Incomplete'),
-            ('In Progress', 'In Progress'),
             ('Complete', 'Complete')
         ])
     created_dt = models.DateTimeField(auto_now_add=True)
@@ -53,12 +52,20 @@ class StandardReward(models.Model):
     size = models.CharField(max_length=64)
     name = models.CharField(max_length=1000)
 
+    def get_points(self):
+        points_map = {
+            'Small': 100,
+            'Medium': 300,
+            'Large' : 500
+        }
+        return points_map.get(self.size)
+
 class UserReward(models.Model):
     size = models.CharField(max_length=64)
     description = models.CharField(max_length=1000)
     status = models.CharField(max_length=64,
         choices=[
-            ('Earned', 'Earned'),
+            ('Available', 'Available'),
             ('Used', 'Used')
         ])
     created_dt = models.DateTimeField(auto_now_add=True)
@@ -66,3 +73,11 @@ class UserReward(models.Model):
     user = models.ForeignKey(
       get_user_model(),
       on_delete=models.CASCADE)
+
+    def get_points(self):
+        points_map = {
+            'Small': 100,
+            'Medium': 300,
+            'Large' : 500
+        }
+        return points_map.get(self.size)

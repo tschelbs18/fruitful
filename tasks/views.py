@@ -119,7 +119,6 @@ def complete_task(request, task_id):
     task.status = 'Complete'
     task.save()
     points = task.get_points()
-    # Update the user profile with points
     profile = UserProfile.objects.get(user=request.user)
     profile.current_points += points
     profile.total_points += points
@@ -137,8 +136,53 @@ def past_tasks_view(request):
         messages.add_message(request, messages.INFO, "You need to login first.")
         return render(request, "tasks/login.html")
 
-def scoreboard_view(request):
-    # TODO:
+def rewards_view(request):
+    if request.user.is_authenticated:
+        context = {
+            "standard_rewards": StandardReward.objects.all(),
+            "custom_rewards": UserReward.objects.filter(status='Available'),
+        }
+        return render(request, "tasks/rewards.html", context)
+    else:
+        messages.add_message(request, messages.INFO, "You need to login first.")
+        return render(request, "tasks/login.html")
+
+def add_reward(request):
+    if request.method == "POST":
+        description = request.POST.get("description")
+        size = request.POST.get("size")
+        new_reward = UserReward(user=request.user, size=size, status="Available", description=description)
+        new_reward.save()
+        return HttpResponseRedirect(reverse("rewards"))
+    else:
+        return HttpResponseRedirect(reverse("rewards"))
+
+def redeem_reward(request, reward_id):
+    reward = UserReward.objects.get(id=reward_id)
+    reward.status = 'Used'
+    reward.save()
+    points = reward.get_points()
+    profile = UserProfile.objects.get(user=request.user)
+    profile.current_points -= points
+    profile.total_points -= points
+    profile.save()
+    messages.add_message(request, messages.SUCCESS, f"Awesome! Enjoy your reward.")
+    return HttpResponseRedirect(reverse("rewards"))
+
+def past_rewards_view(request):
+    if request.user.is_authenticated:
+        context = {
+            "redeemed_rewards": UserReward.objects.filter(status='Used'),
+        }
+        return render(request, "tasks/past_rewards.html", context)
+    else:
+        messages.add_message(request, messages.INFO, "You need to login first.")
+        return render(request, "tasks/login.html")
+
+def scoreboard_total_view(request):
+    pass
+
+def scoreboard_daily_view(request):
     pass
 
 def about_view(request):
