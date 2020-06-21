@@ -99,6 +99,7 @@ def tasks_view(request):
 def add_task(request):
     if request.method == "POST":
         task = request.POST.get("description")
+        # Need to add size to form
         new_task = UserTask(user=request.user, size="Small", status="Incomplete", description=task)
         new_task.save()
         return HttpResponseRedirect(reverse("tasks"))
@@ -117,8 +118,24 @@ def complete_task(request, task_id):
     task = UserTask.objects.get(id=task_id)
     task.status = 'Complete'
     task.save()
+    points = task.get_points()
+    # Update the user profile with points
+    profile = UserProfile.objects.get(user=request.user)
+    profile.current_points += points
+    profile.total_points += points
+    profile.save()
     messages.add_message(request, messages.SUCCESS, f"Nice work! You just earned {task.get_points()} points.")
     return HttpResponseRedirect(reverse("tasks"))
+
+def past_tasks_view(request):
+    if request.user.is_authenticated:
+        context = {
+            "completed_tasks": UserTask.objects.filter(status='Complete', user=request.user)
+        }
+        return render(request, "tasks/past_tasks.html", context)
+    else:
+        messages.add_message(request, messages.INFO, "You need to login first.")
+        return render(request, "tasks/login.html")
 
 def scoreboard_view(request):
     # TODO:

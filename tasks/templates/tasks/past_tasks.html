@@ -1,0 +1,20 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block body %}
+  <h2>Current Tasks</h2>
+  <hr>
+  {% if completed_tasks %}
+  <ul>
+    {% for task in completed_tasks %}
+      <li>{{ task.description }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>
+    You haven't completed any tasks yet.
+  </p>
+  {% endif %}
+{% endblock %}
