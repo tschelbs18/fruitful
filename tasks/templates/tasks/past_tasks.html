@@ -7,11 +7,28 @@
   <h2>Completed Tasks</h2>
   <hr>
   {% if completed_tasks %}
-  <ul>
+  <div class="my-3 p-3 bg-white rounded box-shadow">
     {% for task in completed_tasks %}
-      <li>{{ task.description }}</li>
+    <div class="media text-muted pt-3">
+      {% if task.size == "Small" %}
+        <img src="{% static 'tasks/fruit_art/grapes.png' %}" class="mr-2 rounded" alt="">
+      {% elif task.size == "Medium" %}
+        <img src="{% static 'tasks/fruit_art/apple.png' %}" class="mr-2 rounded" alt="">
+      {% elif task.size == "Large" %}
+        <img src="{% static 'tasks/fruit_art/melon.png' %}" class="mr-2 rounded" alt="">
+      {% endif %}
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark" style="font-size: 20px">{{task.description}}</strong>
+        </div>
+        <span class="d-block">Completed {{ task.get_past_days_completed }} days ago</span>
+      </div>
+    </div>
     {% endfor %}
-  </ul>
+    <small class="d-block text-right mt-3">
+      <a href="/past_tasks">Completed Tasks</a>
+    </small>
+  </div>
   {% else %}
   <p>
     You haven't completed any tasks yet.

@@ -11,10 +11,10 @@
   <a href="#add_custom_head">Add a custom reward</a>
   </div>
   <hr>
-  <h4>Custom</h4>
+  <h4 id="custom_head">Personal Rewards Store</h4>
   <hr>
   {% if custom_rewards %}
-  <div class="my-3 p-3 bg-white rounded box-shadow" id="custom_head">
+  <div class="my-3 p-3 bg-white rounded box-shadow">
     {% for reward in custom_rewards %}
     <div class="media text-muted pt-3">
       {% if reward.size == "Small" %}
@@ -32,7 +32,7 @@
               style="display:inline"
               method="post">
               {% csrf_token %}
-              <input type="submit" class="complete_btn" value="Redeem"/>
+              <input type="submit" class="complete_btn" value="Buy"/>
             </form>
             <form action="/delete_reward/{{reward.id}}/"
               style="display:inline"
@@ -42,7 +42,7 @@
             </form>
           </span>
         </div>
-        <span class="d-block"></span>
+        <span class="d-block">Added {{ reward.get_past_days_added }} days ago</span>
       </div>
     </div>
     {% endfor %}
@@ -75,7 +75,7 @@
               style="display:inline"
               method="post">
               {% csrf_token %}
-              <input type="submit" class="complete_btn" value="Redeem"/>
+              <input type="submit" class="complete_btn" value="Buy"/>
             </form>
           </span>
         </div>
@@ -84,7 +84,7 @@
     {% endfor %}
   </div>
   <br>
-  <h4 id="add_custom_head">Add some more custom rewards</h4>
+  <h4 id="add_custom_head">Add custom rewards to your personal store</h4>
   <hr>
   <form action="/rewards/add" method="post">
       {% csrf_token %}

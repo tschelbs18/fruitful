@@ -208,10 +208,13 @@ def past_rewards_view(request):
         return render(request, "tasks/login.html")
 
 def scoreboard_total_view(request):
-    pass
+    context = {
+        "leaders": UserProfile.objects.order_by('total_points')[:25]
+    }
+    return render(request, "tasks/total_scoreboard.html", context)
 
 def scoreboard_daily_view(request):
-    pass
+    return render(request, "tasks/daily_scoreboard.html")
 
 def about_view(request):
     return render(request, "tasks/about.html")

@@ -1,0 +1,15 @@
+{% extends "tasks/base.html" %}
+{% load static %}
+
+{% block title %}Scoreboard{% endblock %}
+
+{% block body %}
+  <h2>Total Productivity Scoreboard (Top 25)</h2>
+  <hr>
+  <ol>
+    {% for leader in leaders %}
+    <li>{{ leader.user.username }} - {{ leader.total_points }} points
+    </li>
+    {% endfor %}
+  </ol>
+{% endblock %}

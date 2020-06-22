@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from datetime import datetime, timezone
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -40,6 +41,12 @@ class UserTask(models.Model):
       get_user_model(),
       on_delete=models.CASCADE)
 
+    def get_past_days_added(self):
+        return (datetime.now(timezone.utc) - self.created_dt).days
+
+    def get_past_days_completed(self):
+        return (datetime.now(timezone.utc) - self.last_updated_dt).days
+
     def get_points(self):
         points_map = {
             'Small': 100,
@@ -73,6 +80,12 @@ class UserReward(models.Model):
     user = models.ForeignKey(
       get_user_model(),
       on_delete=models.CASCADE)
+
+    def get_past_days_added(self):
+     return (datetime.now(timezone.utc) - self.created_dt).days
+
+    def get_past_days_completed(self):
+     return (datetime.now(timezone.utc) - self.last_updated_dt).days
 
     def get_points(self):
         points_map = {
