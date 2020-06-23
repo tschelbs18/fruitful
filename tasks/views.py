@@ -13,10 +13,13 @@ def index(request):
     context = {
     }
     # Change the line below to True for testing in prod
+    '''
     if request.get_host() == "127.0.0.1:8000" or False:
         return render(request, "tasks/index.html", context)
     else:
         return render(request, "tasks/beta.html", context)
+    '''
+    return render(request, "tasks/index.html", context)
 
 def login_view(request):
     if request.method == "POST":
