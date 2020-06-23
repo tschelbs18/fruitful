@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.utils.html import format_html
 
 from .models import *
 
@@ -54,6 +55,7 @@ def register_view(request):
         user.save()
         user_profile = UserProfile(user=user)
         user_profile.save()
+        messages.add_message(request, messages.SUCCESS, f"Thank you for making an account, {first_name}. Login here.")
         return HttpResponseRedirect(reverse("login"))
     else:
         return render(request, "tasks/register.html")
@@ -103,6 +105,9 @@ def tasks_view(request):
 
 def add_task(request):
     if request.method == "POST":
+        if len(UserTask.objects.filter(user=request.user, status="Incomplete")) >= 20:
+            messages.add_message(request, messages.ERROR, "Sorry, you can't have more than 20 active tasks at any time. Delete or complete one to add a new one.")
+            return HttpResponseRedirect(reverse("rewards"))
         task = request.POST.get("description")
         size = request.POST.get("size")
         new_task = UserTask(user=request.user, size=size, status="Incomplete", description=task)
@@ -131,13 +136,14 @@ def complete_task(request, task_id):
     profile.current_points += points
     profile.total_points += points
     profile.save()
-    messages.add_message(request, messages.SUCCESS, f"Nice work! You just earned {task.get_points()} points.")
+    msg = format_html(f'Nice work! You just earned {task.get_points()} points. Go grab a <a href="{reverse("rewards")}">reward</a>')
+    messages.add_message(request, messages.SUCCESS, msg)
     return HttpResponseRedirect(reverse("tasks"))
 
 def past_tasks_view(request):
     if request.user.is_authenticated:
         context = {
-            "completed_tasks": UserTask.objects.filter(status='Complete', user=request.user)
+            "completed_tasks": UserTask.objects.filter(status='Complete', user=request.user).order_by('-last_updated_dt')[:20]
         }
         return render(request, "tasks/past_tasks.html", context)
     else:
@@ -158,6 +164,9 @@ def rewards_view(request):
 
 def add_reward(request):
     if request.method == "POST":
+        if len(UserReward.objects.filter(user=request.user, status="Available")) >= 20:
+            messages.add_message(request, messages.ERROR, "Sorry, you can't have more than 20 custom rewards at any time. Delete one to make a new one.")
+            return HttpResponseRedirect(reverse("rewards"))
         description = request.POST.get("description")
         size = request.POST.get("size")
         new_reward = UserReward(user=request.user, size=size, status="Available", description=description)
@@ -170,7 +179,7 @@ def add_reward(request):
 def delete_reward(request, reward_id):
     reward = UserReward.objects.get(id=reward_id)
     reward.delete()
-    messages.add_message(request, messages.INFO, "Reward deleted from available custom rewards.")
+    messages.add_message(request, messages.INFO, f"{reward.description} deleted from available custom rewards.")
     return HttpResponseRedirect(reverse("rewards"))
 
 def redeem_reward(request, reward_id):
@@ -206,7 +215,7 @@ def redeem_standard_reward(request, reward_id):
 def past_rewards_view(request):
     if request.user.is_authenticated:
         context = {
-            "redeemed_rewards": UserReward.objects.filter(status='Used', user=request.user),
+            "redeemed_rewards": UserReward.objects.filter(status='Used', user=request.user).order_by('-last_updated_dt')[:20],
         }
         return render(request, "tasks/past_rewards.html", context)
     else:
@@ -215,11 +224,12 @@ def past_rewards_view(request):
 
 def scoreboard_total_view(request):
     context = {
-        "leaders": UserProfile.objects.order_by('total_points')[:25]
+        "leaders": UserProfile.objects.order_by('-total_points')[:25]
     }
     return render(request, "tasks/total_scoreboard.html", context)
 
 def scoreboard_daily_view(request):
+    # Go user by user and calculate points for tasks completed today. grab top 25 from that
     return render(request, "tasks/daily_scoreboard.html")
 
 def about_view(request):
