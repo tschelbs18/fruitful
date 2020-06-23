@@ -59,6 +59,9 @@ def register_view(request):
         return render(request, "tasks/register.html")
 
 def error_view(request):
+    if not(request.user.is_authenticated):
+        messages.add_message(request, messages.INFO, "You need to login first.")
+        return render(request, "tasks/login.html")
     if request.method == "POST":
         subject = request.POST.get("subject")
         details = request.POST.get("description")
@@ -104,11 +107,13 @@ def add_task(request):
         size = request.POST.get("size")
         new_task = UserTask(user=request.user, size=size, status="Incomplete", description=task)
         new_task.save()
+        messages.add_message(request, messages.SUCCESS, f"Task added successfully")
         return HttpResponseRedirect(reverse("tasks"))
     else:
         return HttpResponseRedirect(reverse("tasks"))
 
 def update_task(request, task_id):
+    # TODO:
     pass
 
 def delete_task(request, task_id):
@@ -157,6 +162,7 @@ def add_reward(request):
         size = request.POST.get("size")
         new_reward = UserReward(user=request.user, size=size, status="Available", description=description)
         new_reward.save()
+        messages.add_message(request, messages.SUCCESS, f"Reward added successfully")
         return HttpResponseRedirect(reverse("rewards"))
     else:
         return HttpResponseRedirect(reverse("rewards"))
@@ -179,7 +185,7 @@ def redeem_reward(request, reward_id):
     profile = UserProfile.objects.get(user=request.user)
     profile.current_points -= points
     profile.save()
-    messages.add_message(request, messages.SUCCESS, f"Awesome! Enjoy your reward.")
+    messages.add_message(request, messages.SUCCESS, f"Awesome! {reward.description}")
     return HttpResponseRedirect(reverse("rewards"))
 
 def redeem_standard_reward(request, reward_id):
@@ -194,13 +200,13 @@ def redeem_standard_reward(request, reward_id):
     profile = UserProfile.objects.get(user=request.user)
     profile.current_points -= points
     profile.save()
-    messages.add_message(request, messages.SUCCESS, f"Awesome! Enjoy your reward.")
+    messages.add_message(request, messages.SUCCESS, f"Awesome! {reward.description}")
     return HttpResponseRedirect(reverse("rewards"))
 
 def past_rewards_view(request):
     if request.user.is_authenticated:
         context = {
-            "redeemed_rewards": UserReward.objects.filter(status='Used'),
+            "redeemed_rewards": UserReward.objects.filter(status='Used', user=request.user),
         }
         return render(request, "tasks/past_rewards.html", context)
     else:

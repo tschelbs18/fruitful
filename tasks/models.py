@@ -41,6 +41,9 @@ class UserTask(models.Model):
       get_user_model(),
       on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.size}: {self.description}"
+
     def get_past_days_added(self):
         return (datetime.now(timezone.utc) - self.created_dt).days
 
@@ -67,6 +70,9 @@ class StandardReward(models.Model):
         }
         return points_map.get(self.size)
 
+    def __str__(self):
+     return f"{self.size}: {self.description}"
+
 class UserReward(models.Model):
     size = models.CharField(max_length=64)
     description = models.CharField(max_length=1000)
@@ -80,6 +86,9 @@ class UserReward(models.Model):
     user = models.ForeignKey(
       get_user_model(),
       on_delete=models.CASCADE)
+
+    def __str__(self):
+         return f"{self.size}: {self.description}"
 
     def get_past_days_added(self):
      return (datetime.now(timezone.utc) - self.created_dt).days
