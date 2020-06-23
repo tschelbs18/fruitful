@@ -28,9 +28,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            # Is there a way to check if this is first login? Might want to add a tutorial
             messages.add_message(request, messages.SUCCESS, "Logged in Successfully.")
-            # Change this route to the tasks page?
-            return HttpResponseRedirect(reverse("home"))
+            return HttpResponseRedirect(reverse("tasks"))
         else:
             messages.add_message(request, messages.ERROR, "Invalid Credentials.")
             return render(request, "tasks/login.html")
