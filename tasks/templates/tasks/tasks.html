@@ -25,7 +25,7 @@
               style="display:inline"
               method="post">
               {% csrf_token %}
-              <input type="submit" class="complete_btn" value="Mark Complete"/>
+              <input type="submit" class="complete_btn" value="Complete"/>
             </form>
             <form action="/delete_task/{{task.id}}/"
               style="display:inline"
