@@ -52,12 +52,13 @@
   <hr>
   <form action="/tasks/add" method="post">
       {% csrf_token %}
-      <label for="size" style="display:block"><b>Select a size:</b></label>
+      <label for="size" style="display:block" data-toggle="tooltip" title="Grapes are 100 points, Apples are 300 points, Watermelons are 500 points."><b>Select a size:</b></label>
       <select name="size">
         <option value="Small">Grape</option>
         <option value="Medium">Apple</option>
         <option value="Large">Watermelon</option>
       </select>
+      <br>
       <label for="description" style="display:block"><b>Task description:</b></label>
       <textarea name="description" rows="4" cols="50" minlength="3" required></textarea>
       <input type="submit" style="display:block" value="Add Task"/>
