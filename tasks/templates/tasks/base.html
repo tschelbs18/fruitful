@@ -84,7 +84,7 @@
                             {{ user.get_username }}
                           </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdownHelp">
-                            <a class="dropdown-item" href="/rewards">{{ UserProfile.objects.get(user=request.user).current_points }} points</a>
+                            <a class="dropdown-item" href="/rewards">Points</a>
                             <a class="dropdown-item" href="/profile">Profile</a>
                             <a class="dropdown-item" href="/logout">Logout</a>
                           </div>
