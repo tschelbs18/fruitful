@@ -79,7 +79,16 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/logout">{{ user.get_username }} - Logout</a></li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownHelp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.get_username }}
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdownHelp">
+                            <a class="dropdown-item" href="/rewards">{{ UserProfile.objects.get(user=request.user).current_points }} points</a>
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                          </div>
+                        </li>
                     </ul>
                 {% else %}
                     <ul class="navbar-nav mr-auto mt-2">

@@ -24,5 +24,6 @@ urlpatterns = [
   path("daily_scoreboard", views.scoreboard_daily_view, name="daily_scoreboard"),
   path("total_scoreboard", views.scoreboard_total_view, name="total_scoreboard"),
   path("handle_error/<int:error_id>/", views.handle_error, name="handle_error"),
-  path("admin_errors", views.admin_errors_view, name="admin_errors_view")
+  path("admin_errors", views.admin_errors_view, name="admin_errors_view"),
+  path("profile", views.user_profile_view, name="profile_view")
 ]

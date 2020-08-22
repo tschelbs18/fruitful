@@ -240,3 +240,6 @@ def about_view(request):
 
 def faq_view(request):
     return render(request, "tasks/faq.html")
+
+def profile_view(request):
+    return render(request, "tasks/profile.html")
