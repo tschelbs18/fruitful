@@ -45,7 +45,15 @@ class UserTask(models.Model):
         return f"{self.size}: {self.description}"
 
     def get_past_days_added(self):
-        return (datetime.now(timezone.utc) - self.created_dt).days
+        # Should probably return a dictionary with units and value
+        if (datetime.now(timezone.utc) - self.created_dt).days >= 1:
+            return {'units': 'days', 'value': (datetime.now(timezone.utc) - self.created_dt).days}
+        elif (datetime.now(timezone.utc) - self.created_dt).hours >= 1:
+            return {'units': 'hours', 'value': (datetime.now(timezone.utc) - self.created_dt).hours}
+        elif (datetime.now(timezone.utc) - self.created_dt).minutes >= 1:
+            return {'units': 'minutes', 'value': (datetime.now(timezone.utc) - self.created_dt).minutes}
+        else:
+            return {'units': 'seconds', 'value': (datetime.now(timezone.utc) - self.created_dt).seconds}
 
     def get_past_days_completed(self):
         return (datetime.now(timezone.utc) - self.last_updated_dt).days
