@@ -45,18 +45,24 @@ class UserTask(models.Model):
         return f"{self.size}: {self.description}"
 
     def get_past_days_added(self):
-        # Should probably return a dictionary with units and value
         if (datetime.now(timezone.utc) - self.created_dt).days >= 1:
-            return {'units': 'days', 'value': (datetime.now(timezone.utc) - self.created_dt).days}
-        elif (datetime.now(timezone.utc) - self.created_dt).hours >= 1:
-            return {'units': 'hours', 'value': (datetime.now(timezone.utc) - self.created_dt).hours}
-        elif (datetime.now(timezone.utc) - self.created_dt).minutes >= 1:
-            return {'units': 'minutes', 'value': (datetime.now(timezone.utc) - self.created_dt).minutes}
+            return f"{(datetime.now(timezone.utc) - self.created_dt).days} days"
+        elif (datetime.now(timezone.utc) - self.created_dt).seconds // 3600 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.created_dt).seconds // 3600 } hours"
+        elif (datetime.now(timezone.utc) - self.created_dt).seconds // 60 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.created_dt).seconds // 60} minutes"
         else:
-            return {'units': 'seconds', 'value': (datetime.now(timezone.utc) - self.created_dt).seconds}
+            return f"{(datetime.now(timezone.utc) - self.created_dt).seconds} seconds"
 
     def get_past_days_completed(self):
-        return (datetime.now(timezone.utc) - self.last_updated_dt).days
+        if (datetime.now(timezone.utc) - self.last_updated_dt).days >= 1:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).days} days"
+        elif (datetime.now(timezone.utc) - self.last_updated_dt).seconds // 3600 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).seconds // 3600 } hours"
+        elif (datetime.now(timezone.utc) - self.last_updated_dt).seconds // 60 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).seconds // 60} minutes"
+        else:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).seconds} seconds"
 
     def get_points(self):
         points_map = {
@@ -99,10 +105,24 @@ class UserReward(models.Model):
          return f"{self.size}: {self.description}"
 
     def get_past_days_added(self):
-     return (datetime.now(timezone.utc) - self.created_dt).days
+        if (datetime.now(timezone.utc) - self.created_dt).days >= 1:
+            return f"{(datetime.now(timezone.utc) - self.created_dt).days} days"
+        elif (datetime.now(timezone.utc) - self.created_dt).seconds // 3600 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.created_dt).seconds // 3600 } hours"
+        elif (datetime.now(timezone.utc) - self.created_dt).seconds // 60 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.created_dt).seconds // 60} minutes"
+        else:
+            return f"{(datetime.now(timezone.utc) - self.created_dt).seconds} seconds"
 
     def get_past_days_completed(self):
-     return (datetime.now(timezone.utc) - self.last_updated_dt).days
+        if (datetime.now(timezone.utc) - self.last_updated_dt).days >= 1:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).days} days"
+        elif (datetime.now(timezone.utc) - self.last_updated_dt).seconds // 3600 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).seconds // 3600 } hours"
+        elif (datetime.now(timezone.utc) - self.last_updated_dt).seconds // 60 >= 1:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).seconds // 60} minutes"
+        else:
+            return f"{(datetime.now(timezone.utc) - self.last_updated_dt).seconds} seconds"
 
     def get_points(self):
         points_map = {
