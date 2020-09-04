@@ -2,10 +2,9 @@ from django.test import TestCase
 
 # Create your tests here.
 
-print("Succesful")
-'''
 from .models import *
 
+'''
 class ModelsTestCase(TestCase):
 
     def setUp(self):
