@@ -22,4 +22,7 @@ class ModelsTestCase(TestCase):
     def test_user_name(self):
         user = User.objects.get(username='testymctestface')
         profile = UserProfile.objects.get(user=user)
-        self.assert_equal(profile, user.username)
+        self.assertEqual(profile, user.username)
+
+    def test_true(self):
+        self.assertTrue(True)
